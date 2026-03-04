@@ -40,7 +40,7 @@ function Footer() {
         </div>
 
         <div className="space-y-2 text-xs text-right sm:text-left">
-          <p className="font-semibold text-primary">SheZone – Redefining Women Fashion</p>
+          <p className="font-semibold text-primary">SheZone – A Passion Of Lady</p>
           <p className="text-[11px] text-text/60">
             Crafted with love for modern Indian women.
           </p>

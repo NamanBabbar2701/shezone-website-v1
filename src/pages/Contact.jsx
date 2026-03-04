@@ -52,7 +52,7 @@ function Contact() {
             </p>
           </div>
 
-          <div className="space-y-2 text-sm text-text/80">
+          {/* <div className="space-y-2 text-sm text-text/80">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
               Email
             </p>
@@ -60,7 +60,7 @@ function Contact() {
               <FiMail className="text-primary" />
               <span>care@shezone.studio</span>
             </p>
-          </div>
+          </div> */}
 
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -68,21 +68,21 @@ function Contact() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/sz_shezone?igsh=cGpvdDd0dzNjNno0"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background text-primary shadow-soft transition hover:bg-primary hover:text-white"
               >
                 <FiInstagram />
               </a>
-              <a
+              {/* <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background text-primary shadow-soft transition hover:bg-primary hover:text-white"
               >
                 <FiFacebook />
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -133,7 +133,7 @@ function Contact() {
         <div className="overflow-hidden rounded-2xl bg-white/80 shadow-soft">
           <iframe
             title="SheZone Store Location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3475.253438538006!2d74.282!3d29.581!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sHanumangarh%20Jn!5e0!3m2!1sen!2sin!4v1700000000000"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3468.919698336565!2d74.28871827499349!3d29.60602053921099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3916f49595788ef9%3A0x7ed5fbe691472b2e!2sShe%20zone!5e0!3m2!1sen!2sin!4v1772611159678!5m2!1sen!2sin"
             width="100%"
             height="100%"
             style={{ border: 0, minHeight: 320 }}
