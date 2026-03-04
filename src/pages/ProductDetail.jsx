@@ -38,12 +38,16 @@ function ProductDetail() {
       </div>
     )
   }
+  const CONTACTS = [
+  { name: "Anupama Gumber", phone: "919784885301" },
+  { name: "Jyoti Babbar", phone: "918949111126" }
+];
 
   const handleWhatsAppEnquiry = () => {
     const message = encodeURIComponent(
       `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.`
     )
-    window.open(`https://wa.me/918949111126?text=${message}`, '_blank')
+    window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
   }
 
   const handleShare = async () => {
