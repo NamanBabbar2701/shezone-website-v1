@@ -38,18 +38,23 @@ function ProductDetail() {
       </div>
     )
   }
-  const CONTACTS = [
-  { name: "Anupama Gumber", phone: "919784885301" },
-  { name: "Jyoti Babbar", phone: "918949111126" }
-];
 
-  const handleWhatsAppEnquiry = () => {
+  // WhatsApp contacts
+  const CONTACTS = [
+    { name: "Anupama Gumber", phone: "919784885301" },
+    { name: "Jyoti Babbar", phone: "918949111126" }
+  ]
+
+  // WhatsApp enquiry function
+  const handleWhatsAppEnquiry = (phone) => {
     const message = encodeURIComponent(
-      `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.`
+      `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.\nProduct Link: ${window.location.href}`
     )
+
     window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
   }
 
+  // Share product
   const handleShare = async () => {
     const url = window.location.href
     const text = `SheZone • ${product.name}`
@@ -57,9 +62,7 @@ function ProductDetail() {
     if (navigator.share) {
       try {
         await navigator.share({ title: text, text, url })
-      } catch {
-        // user cancelled share; ignore
-      }
+      } catch {}
     } else if (navigator.clipboard) {
       try {
         await navigator.clipboard.writeText(url)
@@ -82,6 +85,8 @@ function ProductDetail() {
       </button>
 
       <section className="grid gap-8 rounded-2xl bg-white/80 p-4 shadow-soft md:grid-cols-2 md:p-6">
+        
+        {/* Image Section */}
         <div className="space-y-4">
           <motion.div
             className="overflow-hidden rounded-2xl bg-background"
@@ -125,6 +130,7 @@ function ProductDetail() {
           )}
         </div>
 
+        {/* Product Details */}
         <div className="space-y-5">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -146,12 +152,14 @@ function ProductDetail() {
               </p>
               <p className="font-medium text-text">{product.fabric}</p>
             </div>
+
             <div className="space-y-1 rounded-xl bg-background px-3 py-2.5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                 Work
               </p>
               <p className="font-medium text-text">{product.workType}</p>
             </div>
+
             <div className="space-y-1 rounded-xl bg-background px-3 py-2.5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                 Price
@@ -160,6 +168,7 @@ function ProductDetail() {
                 {formatPrice(product.price)}
               </p>
             </div>
+
             <div className="space-y-1 rounded-xl bg-background px-3 py-2.5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                 Code
@@ -168,14 +177,19 @@ function ProductDetail() {
             </div>
           </div>
 
+          {/* WhatsApp Buttons */}
           <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={handleWhatsAppEnquiry}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-accent"
-            >
-              WhatsApp enquiry
-            </button>
+            {CONTACTS.map((contact) => (
+              <button
+                key={contact.phone}
+                type="button"
+                onClick={() => handleWhatsAppEnquiry(contact.phone)}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-accent"
+              >
+                WhatsApp {contact.name}
+              </button>
+            ))}
+
             <button
               type="button"
               onClick={handleShare}
@@ -191,4 +205,3 @@ function ProductDetail() {
 }
 
 export default ProductDetail
-
