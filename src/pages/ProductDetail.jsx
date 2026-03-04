@@ -1,27 +1,28 @@
-import { useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { FiArrowLeft, FiShare2 } from 'react-icons/fi'
-import { products } from '../data/products.js'
+import { useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FiArrowLeft, FiShare2 } from "react-icons/fi";
+import { products } from "../data/products.js";
 
 function formatPrice(price) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price);
 }
 
 function ProductDetail() {
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const product = useMemo(
     () => products.find((item) => item.id === id),
     [id]
-  )
+  );
 
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showContacts, setShowContacts] = useState(false);
 
   if (!product) {
     return (
@@ -32,48 +33,49 @@ function ProductDetail() {
         >
           <FiArrowLeft /> Back
         </button>
+
         <p className="rounded-2xl bg-white/80 px-4 py-6 text-sm text-text/70 shadow-soft">
-          We couldn&apos;t find this piece. It may have moved or is no longer available.
+          We couldn&apos;t find this piece. It may have moved or is no longer
+          available.
         </p>
       </div>
-    )
+    );
   }
 
-  // WhatsApp contacts
   const CONTACTS = [
     { name: "Anupama Gumber", phone: "919784885301" },
-    { name: "Jyoti Babbar", phone: "918949111126" }
-  ]
+    { name: "Jyoti Babbar", phone: "918949111126" },
+  ];
 
-  // WhatsApp enquiry function
   const handleWhatsAppEnquiry = (phone) => {
     const message = encodeURIComponent(
       `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.\nProduct Link: ${window.location.href}`
-    )
+    );
 
-    window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
-  }
+    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
 
-  // Share product
+    setShowContacts(false);
+  };
+
   const handleShare = async () => {
-    const url = window.location.href
-    const text = `SheZone • ${product.name}`
+    const url = window.location.href;
+    const text = `SheZone • ${product.name}`;
 
     if (navigator.share) {
       try {
-        await navigator.share({ title: text, text, url })
+        await navigator.share({ title: text, text, url });
       } catch {}
     } else if (navigator.clipboard) {
       try {
-        await navigator.clipboard.writeText(url)
-        alert('Link copied to clipboard')
+        await navigator.clipboard.writeText(url);
+        alert("Link copied to clipboard");
       } catch {
-        alert('Unable to copy link. Please copy from the address bar.')
+        alert("Unable to copy link. Please copy from the address bar.");
       }
     } else {
-      alert('Sharing is not supported in this browser.')
+      alert("Sharing is not supported in this browser.");
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -85,8 +87,8 @@ function ProductDetail() {
       </button>
 
       <section className="grid gap-8 rounded-2xl bg-white/80 p-4 shadow-soft md:grid-cols-2 md:p-6">
-        
-        {/* Image Section */}
+
+        {/* Product Images */}
         <div className="space-y-4">
           <motion.div
             className="overflow-hidden rounded-2xl bg-background"
@@ -111,8 +113,8 @@ function ProductDetail() {
                   onClick={() => setActiveIndex(index)}
                   className={`relative flex-1 overflow-hidden rounded-xl border ${
                     activeIndex === index
-                      ? 'border-primary shadow-soft'
-                      : 'border-transparent opacity-70 hover:opacity-100'
+                      ? "border-primary shadow-soft"
+                      : "border-transparent opacity-70 hover:opacity-100"
                   }`}
                   type="button"
                 >
@@ -136,6 +138,7 @@ function ProductDetail() {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
               {product.category}
             </p>
+
             <h1 className="text-2xl font-semibold text-text sm:text-3xl">
               {product.name}
             </h1>
@@ -177,19 +180,37 @@ function ProductDetail() {
             </div>
           </div>
 
-          {/* WhatsApp Buttons */}
+          {/* Buttons */}
           <div className="flex flex-wrap gap-3">
-            {CONTACTS.map((contact) => (
+
+            {/* WhatsApp Dropdown */}
+            <div className="relative">
               <button
-                key={contact.phone}
                 type="button"
-                onClick={() => handleWhatsAppEnquiry(contact.phone)}
+                onClick={() => setShowContacts(!showContacts)}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-accent"
               >
-                WhatsApp {contact.name}
+                WhatsApp enquiry
               </button>
-            ))}
 
+              {showContacts && (
+                <div className="absolute mt-2 w-48 rounded-xl bg-white shadow-lg border border-gray-100">
+                  {CONTACTS.map((contact) => (
+                    <button
+                      key={contact.phone}
+                      onClick={() =>
+                        handleWhatsAppEnquiry(contact.phone)
+                      }
+                      className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-50"
+                    >
+                      {contact.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Share Button */}
             <button
               type="button"
               onClick={handleShare}
@@ -201,7 +222,7 @@ function ProductDetail() {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default ProductDetail
+export default ProductDetail;
