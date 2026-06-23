@@ -114,12 +114,12 @@ function Home() {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-text sm:text-xl">From our Instagram</h2>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/sz_shezone?igsh=cGpvdDd0dzNjNno0"
             target="_blank"
             rel="noreferrer"
             className="text-xs font-semibold text-accent underline-offset-4 hover:underline"
           >
-            Follow @shezone
+            Follow @sz_shezone
           </a>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
