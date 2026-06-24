@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import ProductCard from '../components/products/ProductCard.jsx'
 import { products, CATEGORIES } from '../data/products.js'
+import heroImage from '../assets/heroimage.png'
+import WebsiteNotice from '../components/WebsiteNotice.jsx'
 
-const heroImage =
-  'https://images.pexels.com/photos/6311579/pexels-photo-6311579.jpeg?auto=compress&cs=tinysrgb&w=1200'
+const WEBSITE_LIVE = false;
 
 const instagramImages = [
   'https://images.pexels.com/photos/6311583/pexels-photo-6311583.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -16,8 +17,13 @@ const instagramImages = [
 function Home() {
   const newArrivals = products.filter((p) => p.isNew).slice(0, 4)
 
+   if(!WEBSITE_LIVE){
+        return <WebsiteNotice />
+      }
+
   return (
     <div className="space-y-12 sm:space-y-16">
+     
       {/* Hero */}
       <section className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
         <div className="space-y-5">

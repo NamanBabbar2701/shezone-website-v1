@@ -12,11 +12,11 @@ function Footer() {
           <p className="flex items-start gap-2">
             <FiMapPin className="mt-1 text-primary" />
             <span>
-              275 Sgn Road,
+              275,Ganganagar Rd,
               <br />
-              Opp. Axis Bank,
+              Opp. Axis Bank,Durga Colony
               <br />
-              Hanumangarh Jn.
+              Hanumangarh, Rajasthan 335512
             </span>
           </p>
         </div>

@@ -16,13 +16,15 @@ function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const product = useMemo(
-    () => products.find((item) => item.id === id),
-    [id]
-  );
+  const product = useMemo(() => products.find((item) => item.id === id), [id]);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [showContacts, setShowContacts] = useState(false);
+
+  const mrp = product.mrp || product.price;
+  const discount = product.discount || 0;
+
+  const finalPrice = Math.round(mrp - (mrp * discount) / 100);
 
   if (!product) {
     return (
@@ -49,7 +51,7 @@ function ProductDetail() {
 
   const handleWhatsAppEnquiry = (phone) => {
     const message = encodeURIComponent(
-      `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.\nProduct Link: ${window.location.href}`
+      `Hi SheZone, I am interested in "${product.name}" (ID: ${product.id}). Please share availability and details.\nProduct Link: ${window.location.href}`,
     );
 
     window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
@@ -87,7 +89,6 @@ function ProductDetail() {
       </button>
 
       <section className="grid gap-8 rounded-2xl bg-white/80 p-4 shadow-soft md:grid-cols-2 md:p-6">
-
         {/* Product Images */}
         <div className="space-y-4">
           <motion.div
@@ -163,12 +164,31 @@ function ProductDetail() {
               <p className="font-medium text-text">{product.workType}</p>
             </div>
 
-            <div className="space-y-1 rounded-xl bg-background px-3 py-2.5">
+            <div className="space-y-2 rounded-xl bg-background px-3 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                 Price
               </p>
-              <p className="text-lg font-semibold text-accent">
-                {formatPrice(product.price)}
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-2xl font-bold text-accent">
+                  {formatPrice(finalPrice)}
+                </span>
+
+                {discount > 0 && (
+                  <>
+                    <span className="text-sm text-gray-400 line-through">
+                      {formatPrice(mrp)}
+                    </span>
+
+                    <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-600">
+                      {discount}% OFF
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <p className="text-xs font-medium text-green-600">
+                ✓ Available in Store
               </p>
             </div>
 
@@ -182,7 +202,6 @@ function ProductDetail() {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-3">
-
             {/* WhatsApp Dropdown */}
             <div className="relative">
               <button
@@ -198,9 +217,7 @@ function ProductDetail() {
                   {CONTACTS.map((contact) => (
                     <button
                       key={contact.phone}
-                      onClick={() =>
-                        handleWhatsAppEnquiry(contact.phone)
-                      }
+                      onClick={() => handleWhatsAppEnquiry(contact.phone)}
                       className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-50"
                     >
                       {contact.name}

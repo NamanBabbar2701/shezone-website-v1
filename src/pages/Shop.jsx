@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import ProductCard from '../components/products/ProductCard.jsx'
-import { products, CATEGORIES } from '../data/products.js'
+import { products, CATEGORIES, SUB_CATRGORIES } from '../data/products.js'
 
 function useQuery() {
   const { search } = useLocation()
@@ -22,7 +22,11 @@ function Shop() {
     const matchesSearch =
       !searchText ||
       product.name.toLowerCase().includes(searchText) ||
-      product.description.toLowerCase().includes(searchText)
+      product.description.toLowerCase().includes(searchText)||
+      product.category.toLowerCase().includes(searchText) ||
+      product.subCategory?.toLowerCase().includes(searchText) ||
+      product.fabric?.toLowerCase().includes(searchText) ||
+      product.workType?.toLowerCase().includes(searchText)
     return matchesCategory && matchesSearch
   })
 

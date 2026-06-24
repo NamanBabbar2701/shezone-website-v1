@@ -25,11 +25,11 @@ function Contact() {
             <p className="flex items-start gap-2 text-sm text-text/80">
               <FiMapPin className="mt-1 text-primary" />
               <span>
-                275 Sgn Road,
+                275, Ganganagar Rd,
                 <br />
-                Opp. Axis Bank,
+                opp. Axis Bank, Durga Colony
                 <br />
-                Hanumangarh Jn.
+                Hanumangarh, Rajasthan 335512
               </span>
             </p>
           </div>

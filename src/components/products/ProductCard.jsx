@@ -12,6 +12,13 @@ function formatPrice(price) {
 function ProductCard({ product }) {
   const primaryImage = product.images[0]
 
+  const mrp = product.mrp || product.price
+  const discount = product.discount || 0
+
+  const finalPrice = Math.round(
+    mrp - (mrp * discount) / 100
+  )
+
   return (
     <motion.article
       layout
@@ -20,7 +27,10 @@ function ProductCard({ product }) {
       exit={{ opacity: 0, y: 10 }}
       className="group flex flex-col overflow-hidden rounded-xl bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-xl"
     >
-      <Link to={`/product/${product.id}`} className="flex flex-1 flex-col">
+      <Link
+        to={`/product/${product.id}`}
+        className="flex flex-1 flex-col"
+      >
         <div className="relative overflow-hidden pb-[130%]">
           <img
             src={primaryImage}
@@ -28,9 +38,16 @@ function ProductCard({ product }) {
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
+
           {product.isNew && (
             <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-soft">
               New
+            </span>
+          )}
+
+          {discount > 0 && (
+            <span className="absolute right-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow-soft">
+              {discount}% OFF
             </span>
           )}
         </div>
@@ -39,12 +56,22 @@ function ProductCard({ product }) {
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
             {product.category}
           </p>
+
           <h3 className="text-sm font-semibold text-text sm:text-base">
             {product.name}
           </h3>
-          <p className="mt-auto text-sm font-semibold text-accent sm:text-base">
-            {formatPrice(product.price)}
-          </p>
+
+          <div className="mt-auto flex items-center gap-2 flex-wrap">
+            <span className="text-base font-bold text-accent sm:text-lg">
+              {formatPrice(finalPrice)}
+            </span>
+
+            {discount > 0 && (
+              <span className="text-xs text-gray-400 line-through sm:text-sm">
+                {formatPrice(mrp)}
+              </span>
+            )}
+          </div>
         </div>
       </Link>
     </motion.article>
@@ -52,4 +79,3 @@ function ProductCard({ product }) {
 }
 
 export default ProductCard
-
