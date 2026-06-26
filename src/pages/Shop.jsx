@@ -1,36 +1,40 @@
-import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import ProductCard from '../components/products/ProductCard.jsx'
-import { products, CATEGORIES, SUB_CATRGORIES } from '../data/products.js'
+import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import ProductCard from "../components/products/ProductCard.jsx";
+import { products } from "../data/products.js";
+import { CATEGORIES, SUB_CATEGORIES } from "../data/categories.js" 
 
 function useQuery() {
-  const { search } = useLocation()
-  return useMemo(() => new URLSearchParams(search), [search])
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 function Shop() {
-  const query = useQuery()
-  const initialCategory = query.get('category') || 'All'
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory)
-  const [search, setSearch] = useState('')
+  const query = useQuery();
+  const initialCategory = query.get("category") || "All";
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [search, setSearch] = useState("");
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
-      selectedCategory === 'All' || product.category === selectedCategory
-    const searchText = search.trim().toLowerCase()
+      selectedCategory === "All" || product.category === selectedCategory;
+    const searchText = search.trim().toLowerCase();
     const matchesSearch =
       !searchText ||
       product.name.toLowerCase().includes(searchText) ||
-      product.description.toLowerCase().includes(searchText)||
+      product.description.toLowerCase().includes(searchText) ||
       product.category.toLowerCase().includes(searchText) ||
       product.subCategory?.toLowerCase().includes(searchText) ||
       product.fabric?.toLowerCase().includes(searchText) ||
-      product.workType?.toLowerCase().includes(searchText)
-    return matchesCategory && matchesSearch
-  })
+      product.workType?.toLowerCase().includes(searchText);
+    return matchesCategory && matchesSearch;
+  });
 
-  const categoriesWithAll = ['All', ...CATEGORIES]
+  const categoriesWithAll = ["All", ...CATEGORIES];
+
+  const totalProducts = products.length;
+  const totalResults = filteredProducts.length;
 
   return (
     <div className="space-y-6">
@@ -42,7 +46,8 @@ function Shop() {
           Curated pieces for every moment.
         </h1>
         <p className="max-w-2xl text-sm text-text/70">
-          Filter by category or search to find the outfit that speaks your style.
+          Filter by category or search to find the outfit that speaks your
+          style.
         </p>
       </header>
 
@@ -55,8 +60,8 @@ function Shop() {
                 onClick={() => setSelectedCategory(category)}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   selectedCategory === category
-                    ? 'bg-primary text-white shadow-soft'
-                    : 'bg-background text-text hover:bg-primary/10'
+                    ? "bg-primary text-white shadow-soft"
+                    : "bg-background text-text hover:bg-primary/10"
                 }`}
               >
                 {category}
@@ -76,6 +81,29 @@ function Shop() {
         </div>
       </section>
 
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-text/70">
+          {search.trim() ? (
+            <>
+              Showing{" "}
+              <span className="font-semibold text-primary">{totalResults}</span>{" "}
+              result{totalResults !== 1 && "s"} for{" "}
+              <span className="font-semibold text-primary">"{search}"</span>
+            </>
+          ) : (
+            <>
+              Showing{" "}
+              <span className="font-semibold text-primary">{totalResults}</span>{" "}
+              of{" "}
+              <span className="font-semibold text-primary">
+                {totalProducts}
+              </span>{" "}
+              products
+            </>
+          )}
+        </p>
+      </div>
+
       <section>
         {filteredProducts.length === 0 ? (
           <p className="rounded-2xl bg-white/80 px-4 py-6 text-sm text-text/70 shadow-soft">
@@ -94,8 +122,7 @@ function Shop() {
         )}
       </section>
     </div>
-  )
+  );
 }
 
-export default Shop
-
+export default Shop;

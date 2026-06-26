@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
 import logo from '../../assets/shezone.png'
 
-const WEBSITE_LIVE = false
+const WEBSITE_LIVE = true
 
 const navLinks = [
   { to: '/', label: 'Home' },

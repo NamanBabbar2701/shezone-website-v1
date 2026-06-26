@@ -21,10 +21,7 @@ function ProductDetail() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showContacts, setShowContacts] = useState(false);
 
-  const mrp = product.mrp || product.price;
-  const discount = product.discount || 0;
 
-  const finalPrice = Math.round(mrp - (mrp * discount) / 100);
 
   if (!product) {
     return (
@@ -43,6 +40,15 @@ function ProductDetail() {
       </div>
     );
   }
+
+  const mrp = Number(product.mrp || 0);
+
+const discount = Number(product.discount || 0);
+
+const finalPrice =
+  discount > 0
+    ? Math.round(mrp - (mrp * discount) / 100)
+    : mrp;
 
   const CONTACTS = [
     { name: "Anupama Gumber", phone: "919784885301" },

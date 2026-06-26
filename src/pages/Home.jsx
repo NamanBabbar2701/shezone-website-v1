@@ -1,29 +1,59 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import ProductCard from '../components/products/ProductCard.jsx'
-import { products, CATEGORIES } from '../data/products.js'
-import heroImage from '../assets/heroimage.png'
-import WebsiteNotice from '../components/WebsiteNotice.jsx'
+import {useState, useEffect} from "react"
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import ProductCard from "../components/products/ProductCard.jsx";
+import { products } from "../data/products.js";
+import { CATEGORIES } from "../data/categories.js";
+import WebsiteNotice from "../components/ui/WebsiteNotice.jsx";
+import CatalogPopup from "../components/ui/CatalogPopup.jsx"
 
-const WEBSITE_LIVE = false;
+const WEBSITE_LIVE = true;
 
-const instagramImages = [
-  'https://images.pexels.com/photos/6311583/pexels-photo-6311583.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6311609/pexels-photo-6311609.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6311606/pexels-photo-6311606.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6311580/pexels-photo-6311580.jpeg?auto=compress&cs=tinysrgb&w=800',
-]
+const instagramPosts = [
+  {
+    image:
+      "https://res.cloudinary.com/doevv8qzu/image/upload/v1782300557/ig2_ldf2fs.png",
+    link: "https://www.instagram.com/p/DZzPusulKaO/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/doevv8qzu/image/upload/v1782300833/ig3_xr1v19.png",
+    link: "https://www.instagram.com/p/DWGNgjEFLlw/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/doevv8qzu/image/upload/v1782300833/ig1_kx9qy1.png",
+    link: "https://www.instagram.com/p/DV8cRAdFPDr/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  },
+];
 
 function Home() {
-  const newArrivals = products.filter((p) => p.isNew).slice(0, 4)
+  const [showPopup, setShowPopup] = useState(false);
 
-   if(!WEBSITE_LIVE){
-        return <WebsiteNotice />
-      }
+useEffect(() => {
+  const popupSeen = localStorage.getItem("catalogPopup");
+
+  if (!popupSeen) {
+    setShowPopup(true);
+  }
+}, []);
+  const newArrivals = products.filter((p) => p.isNew).slice(0, 4);
+
+  if (!WEBSITE_LIVE) {
+    return <WebsiteNotice />;
+  }
 
   return (
+    <>
+    {showPopup && (
+      <CatalogPopup
+        onClose={() => {
+          localStorage.setItem("catalogPopup", "true");
+          setShowPopup(false);
+        }}
+      />
+    )}
     <div className="space-y-12 sm:space-y-16">
-     
       {/* Hero */}
       <section className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
         <div className="space-y-5">
@@ -32,12 +62,14 @@ function Home() {
           </p>
           <h1 className="text-3xl font-semibold leading-tight text-text sm:text-4xl lg:text-5xl">
             Redefining women fashion
-            <span className="block text-accent">for the modern Indian muse.</span>
+            <span className="block text-accent">
+              for the modern Indian muse.
+            </span>
           </h1>
           <p className="max-w-xl text-sm leading-relaxed text-text/80 sm:text-base">
-            Discover premium sarees, lehengas, kurtis and occasion-wear curated with
-            love. Thoughtful silhouettes, luxurious fabrics and timeless details that
-            celebrate you.
+            Discover premium sarees, lehengas, kurtis and occasion-wear curated
+            with love. Thoughtful silhouettes, luxurious fabrics and timeless
+            details that celebrate you.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
@@ -63,7 +95,7 @@ function Home() {
         >
           <div className="relative pb-[120%]">
             <img
-              src={heroImage}
+              src="https://res.cloudinary.com/doevv8qzu/image/upload/v1782229292/Lehanga2_ae6bkc.jpg"
               alt="SheZone premium ethnic wear"
               loading="lazy"
               className="absolute inset-0 h-full w-full object-cover"
@@ -82,7 +114,9 @@ function Home() {
       {/* Categories */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-text sm:text-xl">Featured categories</h2>
+          <h2 className="text-lg font-semibold text-text sm:text-xl">
+            Featured categories
+          </h2>
         </div>
         <div className="flex flex-wrap gap-3">
           {CATEGORIES.map((category) => (
@@ -100,7 +134,9 @@ function Home() {
       {/* New Arrivals */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-text sm:text-xl">New arrivals</h2>
+          <h2 className="text-lg font-semibold text-text sm:text-xl">
+            New arrivals
+          </h2>
           <Link
             to="/shop"
             className="text-xs font-semibold text-accent underline-offset-4 hover:underline"
@@ -118,7 +154,9 @@ function Home() {
       {/* Instagram preview */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-text sm:text-xl">From our Instagram</h2>
+          <h2 className="text-lg font-semibold text-text sm:text-xl">
+            From our Instagram
+          </h2>
           <a
             href="https://www.instagram.com/sz_shezone?igsh=cGpvdDd0dzNjNno0"
             target="_blank"
@@ -129,30 +167,37 @@ function Home() {
           </a>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {instagramImages.map((src, index) => (
+          {instagramPosts.map((post, index) => (
             <motion.div
-              key={src}
-              className="overflow-hidden rounded-xl bg-white shadow-soft"
+              key={post.link}
+              className="group overflow-hidden rounded-xl bg-white shadow-soft"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
             >
               <div className="relative pb-[110%]">
-                <img
-                  src={src}
-                  alt="SheZone Instagram preview"
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
-                />
+                <a href={post.link} target="_blank" rel="noopener noreferrer">
+                  <img
+                    src={post.image}
+                    alt="Instagram Post"
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/40">
+                    <span className="opacity-0 group-hover:opacity-100 text-white font-semibold">
+                      View on Instagram
+                    </span>
+                  </div>
+                </a>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
     </div>
-  )
+  </>
+  );
 }
 
-export default Home
-
+export default Home;
